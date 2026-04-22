@@ -1,5 +1,25 @@
-
 <style>
+  :root {
+    --ring-1: clamp(260px, 48vmin, 620px);
+    --ring-2: clamp(340px, 60vmin, 760px);
+    --ring-3: clamp(420px, 74vmin, 920px);
+    --cat-size: clamp(180px, 31vmin, 420px);
+    --title-size: clamp(2.2rem, 6vw, 4.9rem);
+    --subtitle-size: clamp(0.78rem, 1.6vw, 1.1rem);
+    --tagline-size: clamp(0.62rem, 1.15vw, 0.86rem);
+    --label-size: clamp(0.6rem, 0.95vw, 0.82rem);
+  }
+
+  html, body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    background: #06030f;
+  }
+
+  * { box-sizing: border-box; }
+
   @keyframes floatCat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-12px)} }
   @keyframes pulseGlow { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.08)} }
   @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
@@ -11,37 +31,73 @@
   @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(18px,-22px)} 66%{transform:translate(-14px,10px)} }
   @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-20px,15px)} 66%{transform:translate(12px,-18px)} }
   @keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(10px,20px)} 66%{transform:translate(-18px,-12px)} }
-  @keyframes ringPulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.55;transform:scale(1.04)} }
+  @keyframes ringPulse { 0%,100%{opacity:0.2;transform:translate(-50%,-55%) scale(1)} 50%{opacity:0.55;transform:translate(-50%,-55%) scale(1.04)} }
   @keyframes particleDrift { 0%{opacity:0;transform:translateY(0) scale(0)} 20%{opacity:1;transform:translateY(-20px) scale(1)} 100%{opacity:0;transform:translateY(-120px) scale(0.3)} }
   @keyframes eyeGlow { 0%,100%{opacity:0.85} 50%{opacity:1} }
   @keyframes revealTitle { 0%{letter-spacing:0.4em;opacity:0} 100%{letter-spacing:0.08em;opacity:1} }
   @keyframes subtitleFade { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
 
-  .scene { position:relative; width:100%; background:#06030f; border-radius:14px; overflow:hidden; min-height:580px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .ring1 { position:absolute; border-radius:50%; border:1px dashed rgba(155,110,232,0.35); animation:ringPulse 4s ease-in-out infinite; }
-  .ring2 { position:absolute; border-radius:50%; border:1px solid rgba(100,70,180,0.2); animation:ringPulse 5.5s ease-in-out infinite 1s; }
-  .ring3 { position:absolute; border-radius:50%; border:1px dashed rgba(80,50,140,0.15); animation:ringPulse 7s ease-in-out infinite 2s; }
+  .scene {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100svh;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(84, 52, 183, 0.24), transparent 30%),
+      radial-gradient(circle at 50% 55%, rgba(155, 110, 232, 0.14), transparent 34%),
+      linear-gradient(180deg, #0b0617 0%, #06030f 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding:
+      calc(clamp(18px, 4vh, 42px) + env(safe-area-inset-top, 0px))
+      calc(clamp(18px, 4vw, 48px) + env(safe-area-inset-right, 0px))
+      calc(clamp(18px, 4vh, 42px) + env(safe-area-inset-bottom, 0px))
+      calc(clamp(18px, 4vw, 48px) + env(safe-area-inset-left, 0px));
+    text-align: center;
+    border-radius: 0;
+    isolation: isolate;
+  }
+
+  .ring1, .ring2, .ring3 { position:absolute; top:50%; left:50%; border-radius:50%; pointer-events:none; }
+  .ring1 { width:var(--ring-1); height:var(--ring-1); border:1px dashed rgba(155,110,232,0.35); animation:ringPulse 4s ease-in-out infinite; }
+  .ring2 { width:var(--ring-2); height:var(--ring-2); border:1px solid rgba(100,70,180,0.2); animation:ringPulse 5.5s ease-in-out infinite 1s; }
+  .ring3 { width:var(--ring-3); height:var(--ring-3); border:1px dashed rgba(80,50,140,0.15); animation:ringPulse 7s ease-in-out infinite 2s; }
   .cat-wrap { animation:floatCat 4s ease-in-out infinite; position:relative; z-index:10; }
-  .cat-img { width:280px; height:auto; display:block; filter:drop-shadow(0 0 18px rgba(155,110,232,0.7)) drop-shadow(0 0 40px rgba(100,60,200,0.4)); animation:glitchFlicker 8s ease-in-out infinite; }
-  .glow-orb { position:absolute; border-radius:50%; }
-  .orb1 { width:14px;height:14px;background:radial-gradient(circle,#c8f0ff,#5bc8ff);animation:orbFloat1 6s ease-in-out infinite; }
-  .orb2 { width:10px;height:10px;background:radial-gradient(circle,#e0c8ff,#9b6ee8);animation:orbFloat2 7s ease-in-out infinite 1s; }
-  .orb3 { width:8px;height:8px;background:radial-gradient(circle,#fffac8,#f0c040);animation:orbFloat3 5s ease-in-out infinite 0.5s; }
-  .orb4 { width:12px;height:12px;background:radial-gradient(circle,#c8ffe0,#40d890);animation:orbFloat1 8s ease-in-out infinite 2s; }
-  .title-wrap { z-index:20; text-align:center; margin-top:18px; animation:fadeInUp 1.2s ease-out 0.4s both; }
-  .main-title { font-family:Georgia,serif; font-size:46px; font-weight:700; color:#e8d5ff; letter-spacing:0.08em; margin:0; animation:shimmerText 3s ease-in-out infinite, revealTitle 1.4s ease-out 0.5s both; }
-  .divider { width:320px; height:1px; background:linear-gradient(90deg,transparent,#7c4fd4,transparent); margin:10px auto; opacity:0.7; }
-  .subtitle { font-family:Georgia,serif; font-size:14px; color:#a88be0; letter-spacing:0.35em; font-style:italic; animation:subtitleFade 1s ease-out 1.4s both; opacity:0; }
-  .tagline { font-family:Georgia,serif; font-size:11px; color:#5a3d80; letter-spacing:0.3em; margin-top:8px; animation:subtitleFade 1s ease-out 2s both; opacity:0; }
+  .cat-img { width:min(var(--cat-size),70vw); height:auto; display:block; filter:drop-shadow(0 0 18px rgba(155,110,232,0.7)) drop-shadow(0 0 40px rgba(100,60,200,0.4)); animation:glitchFlicker 8s ease-in-out infinite; }
+  .glow-orb { position:absolute; border-radius:50%; pointer-events:none; }
+  .orb1 { width:14px;height:14px;background:radial-gradient(circle,#c8f0ff,#5bc8ff);animation:orbFloat1 6s ease-in-out infinite; top:clamp(18px,3vh,30px); left:clamp(-26px,-2vw,-12px); }
+  .orb2 { width:10px;height:10px;background:radial-gradient(circle,#e0c8ff,#9b6ee8);animation:orbFloat2 7s ease-in-out infinite 1s; top:clamp(42px,7vh,60px); right:clamp(-24px,-2vw,-12px); }
+  .orb3 { width:8px;height:8px;background:radial-gradient(circle,#fffac8,#f0c040);animation:orbFloat3 5s ease-in-out infinite 0.5s; bottom:clamp(50px,9vh,80px); left:clamp(-20px,-1.8vw,-8px); }
+  .orb4 { width:12px;height:12px;background:radial-gradient(circle,#c8ffe0,#40d890);animation:orbFloat1 8s ease-in-out infinite 2s; bottom:clamp(36px,7vh,60px); right:clamp(-28px,-2vw,-10px); }
+  .title-wrap { z-index:20; text-align:center; margin-top:clamp(10px,2vh,18px); animation:fadeInUp 1.2s ease-out 0.4s both; }
+  .main-title { font-family:Georgia,serif; font-size:var(--title-size); line-height:0.96; font-weight:700; color:#e8d5ff; letter-spacing:clamp(0.06em,0.2vw,0.09em); margin:0; animation:shimmerText 3s ease-in-out infinite, revealTitle 1.4s ease-out 0.5s both; }
+  .divider { width:min(52vw,360px); max-width:100%; height:1px; background:linear-gradient(90deg,transparent,#7c4fd4,transparent); margin:clamp(10px,1.8vh,14px) auto; opacity:0.7; }
+  .subtitle { font-family:Georgia,serif; font-size:var(--subtitle-size); color:#a88be0; letter-spacing:clamp(0.18em,0.7vw,0.35em); font-style:italic; animation:subtitleFade 1s ease-out 1.4s both; opacity:0; margin:0; text-transform:uppercase; }
+  .tagline { font-family:Georgia,serif; font-size:var(--tagline-size); color:#7e61ae; letter-spacing:clamp(0.12em,0.55vw,0.28em); margin-top:clamp(7px,1.1vh,10px); animation:subtitleFade 1s ease-out 2s both; opacity:0; text-transform:uppercase; }
   .stars-layer { position:absolute; inset:0; pointer-events:none; }
   .star { position:absolute; border-radius:50%; background:#fff; }
   .particle { position:absolute; width:4px; height:4px; border-radius:50%; animation:particleDrift linear infinite; }
-  .top-label { font-family:Georgia,serif; font-size:10px; color:#7c4fd4; letter-spacing:0.5em; text-transform:uppercase; margin-bottom:16px; animation:fadeInUp 1s ease-out 0.1s both; }
-  .corner { position:absolute; width:36px; height:36px; border-color:#6a3fa0; border-style:solid; opacity:0.5; }
-  .c-tl { top:16px;left:16px;border-width:2px 0 0 2px; border-radius:4px 0 0 0; }
-  .c-tr { top:16px;right:16px;border-width:2px 2px 0 0; border-radius:0 4px 0 0; }
-  .c-bl { bottom:16px;left:16px;border-width:0 0 2px 2px; border-radius:0 0 0 4px; }
-  .c-br { bottom:16px;right:16px;border-width:0 2px 2px 0; border-radius:0 0 4px 0; }
+  .top-label { font-family:Georgia,serif; font-size:var(--label-size); color:#7c4fd4; letter-spacing:clamp(0.3em,1vw,0.5em); text-transform:uppercase; margin-bottom:clamp(8px,1.5vh,16px); animation:fadeInUp 1s ease-out 0.1s both; }
+  .corner { position:absolute; width:clamp(24px,4.2vw,38px); height:clamp(24px,4.2vw,38px); border-color:rgba(106,63,160,0.75); border-style:solid; opacity:0.5; }
+  .c-tl { top:calc(16px + env(safe-area-inset-top, 0px));left:calc(16px + env(safe-area-inset-left, 0px));border-width:2px 0 0 2px; border-radius:4px 0 0 0; }
+  .c-tr { top:calc(16px + env(safe-area-inset-top, 0px));right:calc(16px + env(safe-area-inset-right, 0px));border-width:2px 2px 0 0; border-radius:0 4px 0 0; }
+  .c-bl { bottom:calc(16px + env(safe-area-inset-bottom, 0px));left:calc(16px + env(safe-area-inset-left, 0px));border-width:0 0 2px 2px; border-radius:0 0 0 4px; }
+  .c-br { bottom:calc(16px + env(safe-area-inset-bottom, 0px));right:calc(16px + env(safe-area-inset-right, 0px));border-width:0 2px 2px 0; border-radius:0 0 4px 0; }
+
+  @media (max-height: 680px) {
+    :root {
+      --cat-size: clamp(150px, 27vh, 280px);
+      --title-size: clamp(1.9rem, 6vh, 3.5rem);
+    }
+    .top-label { margin-bottom: 8px; }
+    .divider { margin: 8px auto; }
+    .tagline { margin-top: 6px; }
+  }
 </style>
 
 <div class="scene" id="scene">
@@ -52,20 +108,20 @@
 
   <div class="stars-layer" id="stars"></div>
 
-  <div class="ring1" style="width:420px;height:420px;top:50%;left:50%;transform:translate(-50%,-55%) rotate(0deg);transform-origin:center;"></div>
-  <div class="ring2" style="width:520px;height:520px;top:50%;left:50%;transform:translate(-50%,-55%);"></div>
-  <div class="ring3" style="width:620px;height:620px;top:50%;left:50%;transform:translate(-50%,-55%);"></div>
+  <div class="ring1"></div>
+  <div class="ring2"></div>
+  <div class="ring3"></div>
 
   <p class="top-label">&#10022; the void stirs &#10022;</p>
 
-  <div style="position:relative;">
+  <div style="position:relative; display:inline-grid; place-items:center;">
     <div class="cat-wrap">
       <img class="cat-img" src="./Schrodinger.png" alt="Schrodinger the cosmic wizard cat"/>
     </div>
-    <div class="glow-orb orb1" style="top:30px;left:-30px;"></div>
-    <div class="glow-orb orb2" style="top:60px;right:-25px;"></div>
-    <div class="glow-orb orb3" style="bottom:80px;left:-20px;"></div>
-    <div class="glow-orb orb4" style="bottom:60px;right:-30px;"></div>
+    <div class="glow-orb orb1"></div>
+    <div class="glow-orb orb2"></div>
+    <div class="glow-orb orb3"></div>
+    <div class="glow-orb orb4"></div>
   </div>
 
   <div class="title-wrap">
