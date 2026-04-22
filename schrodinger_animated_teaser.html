@@ -1,0 +1,102 @@
+
+<style>
+  @keyframes floatCat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-12px)} }
+  @keyframes pulseGlow { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.08)} }
+  @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes rotateReverse { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+  @keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.3)} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes glitchFlicker { 0%,95%,100%{opacity:1} 96%{opacity:0.4} 97%{opacity:1} 98%{opacity:0.2} 99%{opacity:1} }
+  @keyframes shimmerText { 0%,100%{text-shadow:0 0 8px #9b6ee8,0 0 20px #6a3fa0} 50%{text-shadow:0 0 20px #c8a8f0,0 0 40px #9b6ee8,0 0 60px #534AB7} }
+  @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(18px,-22px)} 66%{transform:translate(-14px,10px)} }
+  @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-20px,15px)} 66%{transform:translate(12px,-18px)} }
+  @keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(10px,20px)} 66%{transform:translate(-18px,-12px)} }
+  @keyframes ringPulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.55;transform:scale(1.04)} }
+  @keyframes particleDrift { 0%{opacity:0;transform:translateY(0) scale(0)} 20%{opacity:1;transform:translateY(-20px) scale(1)} 100%{opacity:0;transform:translateY(-120px) scale(0.3)} }
+  @keyframes eyeGlow { 0%,100%{opacity:0.85} 50%{opacity:1} }
+  @keyframes revealTitle { 0%{letter-spacing:0.4em;opacity:0} 100%{letter-spacing:0.08em;opacity:1} }
+  @keyframes subtitleFade { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
+
+  .scene { position:relative; width:100%; background:#06030f; border-radius:14px; overflow:hidden; min-height:580px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ring1 { position:absolute; border-radius:50%; border:1px dashed rgba(155,110,232,0.35); animation:ringPulse 4s ease-in-out infinite; }
+  .ring2 { position:absolute; border-radius:50%; border:1px solid rgba(100,70,180,0.2); animation:ringPulse 5.5s ease-in-out infinite 1s; }
+  .ring3 { position:absolute; border-radius:50%; border:1px dashed rgba(80,50,140,0.15); animation:ringPulse 7s ease-in-out infinite 2s; }
+  .cat-wrap { animation:floatCat 4s ease-in-out infinite; position:relative; z-index:10; }
+  .cat-img { width:280px; height:auto; display:block; filter:drop-shadow(0 0 18px rgba(155,110,232,0.7)) drop-shadow(0 0 40px rgba(100,60,200,0.4)); animation:glitchFlicker 8s ease-in-out infinite; }
+  .glow-orb { position:absolute; border-radius:50%; }
+  .orb1 { width:14px;height:14px;background:radial-gradient(circle,#c8f0ff,#5bc8ff);animation:orbFloat1 6s ease-in-out infinite; }
+  .orb2 { width:10px;height:10px;background:radial-gradient(circle,#e0c8ff,#9b6ee8);animation:orbFloat2 7s ease-in-out infinite 1s; }
+  .orb3 { width:8px;height:8px;background:radial-gradient(circle,#fffac8,#f0c040);animation:orbFloat3 5s ease-in-out infinite 0.5s; }
+  .orb4 { width:12px;height:12px;background:radial-gradient(circle,#c8ffe0,#40d890);animation:orbFloat1 8s ease-in-out infinite 2s; }
+  .title-wrap { z-index:20; text-align:center; margin-top:18px; animation:fadeInUp 1.2s ease-out 0.4s both; }
+  .main-title { font-family:Georgia,serif; font-size:46px; font-weight:700; color:#e8d5ff; letter-spacing:0.08em; margin:0; animation:shimmerText 3s ease-in-out infinite, revealTitle 1.4s ease-out 0.5s both; }
+  .divider { width:320px; height:1px; background:linear-gradient(90deg,transparent,#7c4fd4,transparent); margin:10px auto; opacity:0.7; }
+  .subtitle { font-family:Georgia,serif; font-size:14px; color:#a88be0; letter-spacing:0.35em; font-style:italic; animation:subtitleFade 1s ease-out 1.4s both; opacity:0; }
+  .tagline { font-family:Georgia,serif; font-size:11px; color:#5a3d80; letter-spacing:0.3em; margin-top:8px; animation:subtitleFade 1s ease-out 2s both; opacity:0; }
+  .stars-layer { position:absolute; inset:0; pointer-events:none; }
+  .star { position:absolute; border-radius:50%; background:#fff; }
+  .particle { position:absolute; width:4px; height:4px; border-radius:50%; animation:particleDrift linear infinite; }
+  .top-label { font-family:Georgia,serif; font-size:10px; color:#7c4fd4; letter-spacing:0.5em; text-transform:uppercase; margin-bottom:16px; animation:fadeInUp 1s ease-out 0.1s both; }
+  .corner { position:absolute; width:36px; height:36px; border-color:#6a3fa0; border-style:solid; opacity:0.5; }
+  .c-tl { top:16px;left:16px;border-width:2px 0 0 2px; border-radius:4px 0 0 0; }
+  .c-tr { top:16px;right:16px;border-width:2px 2px 0 0; border-radius:0 4px 0 0; }
+  .c-bl { bottom:16px;left:16px;border-width:0 0 2px 2px; border-radius:0 0 0 4px; }
+  .c-br { bottom:16px;right:16px;border-width:0 2px 2px 0; border-radius:0 0 4px 0; }
+</style>
+
+<div class="scene" id="scene">
+  <div class="corner c-tl"></div>
+  <div class="corner c-tr"></div>
+  <div class="corner c-bl"></div>
+  <div class="corner c-br"></div>
+
+  <div class="stars-layer" id="stars"></div>
+
+  <div class="ring1" style="width:420px;height:420px;top:50%;left:50%;transform:translate(-50%,-55%) rotate(0deg);transform-origin:center;"></div>
+  <div class="ring2" style="width:520px;height:520px;top:50%;left:50%;transform:translate(-50%,-55%);"></div>
+  <div class="ring3" style="width:620px;height:620px;top:50%;left:50%;transform:translate(-50%,-55%);"></div>
+
+  <p class="top-label">&#10022; the void stirs &#10022;</p>
+
+  <div style="position:relative;">
+    <div class="cat-wrap">
+      <img class="cat-img" src="/mnt/user-data/uploads/Schrodinger.jpg" alt="Schrodinger the cosmic wizard cat"/>
+    </div>
+    <div class="glow-orb orb1" style="top:30px;left:-30px;"></div>
+    <div class="glow-orb orb2" style="top:60px;right:-25px;"></div>
+    <div class="glow-orb orb3" style="bottom:80px;left:-20px;"></div>
+    <div class="glow-orb orb4" style="bottom:60px;right:-30px;"></div>
+  </div>
+
+  <div class="title-wrap">
+    <h1 class="main-title">SCHRODINGER</h1>
+    <div class="divider"></div>
+    <p class="subtitle">returns from the beyond</p>
+    <p class="tagline">dead or alive &mdash; you will know soon</p>
+  </div>
+</div>
+
+<script>
+const scene = document.getElementById('scene');
+const starsEl = document.getElementById('stars');
+
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${Math.random()*0.7+0.2};animation:twinkle ${2+Math.random()*4}s ease-in-out infinite ${Math.random()*4}s;`;
+  starsEl.appendChild(s);
+}
+
+const pColors = ['#c8a8f0','#7fd4ff','#a0ffcc','#ffe87a','#ff9ad4'];
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const col = pColors[Math.floor(Math.random()*pColors.length)];
+  const dur = 3 + Math.random() * 4;
+  p.style.cssText = `left:${20+Math.random()*60}%;bottom:${10+Math.random()*30}%;background:${col};animation-duration:${dur}s;animation-delay:${Math.random()*2}s;opacity:0;`;
+  scene.appendChild(p);
+  setTimeout(() => p.remove(), (dur + 2) * 1000);
+}
+setInterval(spawnParticle, 600);
+</script>
